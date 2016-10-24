@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TodoApi.Models;
+using Swashbuckle.SwaggerGen.Generator;
 
 namespace Todo_API
 {
@@ -41,6 +42,9 @@ namespace Todo_API
             services.AddMvc();
 
             services.AddSingleton<ITodoRepository, TodoRepository>();
+
+            // Inject an implementation of ISwaggerProvider with defaulted settings applied
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -54,6 +58,12 @@ namespace Todo_API
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwaggerGen();
+
+            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUi();
         }
     }
 }
